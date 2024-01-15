@@ -1,0 +1,15 @@
+{% extends 'base.html'%} {%block content%} {% load crispy_forms_tags %}
+<h1 class="text-white text-center mt-5">Login page</h1>
+<form
+  method="post"
+  style="width: 50%; height: 500px; margin: auto; color: white"
+  class="pt-4"
+>
+  {% csrf_token %}
+  <!-- {{form|crispy}} -->
+  {% for fm in form %} {{fm.label_tag}} {{fm}} {{fm.errors | striptags}}
+  {%endfor%}
+  <button type="submit" class="btn btn-outline-danger mt-3">Sign up</button>
+</form>
+
+{%endblock%}
