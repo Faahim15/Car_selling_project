@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block styles %}
+<style>
+    #cards_container {
+       
+        font-family: 'Times New Roman', Times, serif;  
+        display: flex; 
+        justify-content: space-around;
+       
+
+    }
+
+    .cardImgTop {
+        width: 500px;
+        height: auto; 
+        margin-top: 20px;
+        border-radius: 5px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    #card-body{
+        margin-top: 20px;
+        background-color: #b885e4;  
+        color: black;
+        width: 600px;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: justify; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        
+    } 
+    .cardtitle{
+        font-family: Georgia, 'Times New Roman', Times, serif; 
+        font: italic;
+    }
+   
+   .card{
+    background-color: rgba(0, 0, 0, 0.1); 
+    color: white;
+   }
+   #comments{ 
+   
+    width: 300px; 
+    border-radius: 5px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    height: auto;
+
+   }
+  
+  
+    /* Add any additional styles as needed */
+</style>
+{% endblock %}
+
+{% block cards %}
+<div id="cards_container">
+   <div>
+    <img src="{{data.image_field.url}}" class="cardImgTop" alt="No picture">
+   </div>
+    <div  id="card-body">
+        <h5 class="cardtitle">Title: {{data.title}}</h5>
+        <p class="cardtitle">Brand: {{data.brand.brand_name}}</p>
+        <p>{{data.description}}</p>
+        <p class="cardtext">Price: {{data.price}}</p>
+        <p class="cardtext">Quantity: <span id="quantity">{{data.quantity}}</span></p>   
+        {%if user.is_authenticated %}
+        <form action="{%url 'place_order' data.id%}" method="post"> 
+            {% csrf_token %}
+
+            <button type="submit"  class="btn btn-outline-info ">Buy now</button>
+
+        </form> 
+        {%endif%}
+        
+
+    </div>
+</div> 
+
+<!-- comments section -->
+<div> 
+
+    <div class="card m-2" id="comments">
+        <h5 class="p-3">Total Comments : {{comments | length}}</h5>
+        {% for comment in comments %}
+      <div class="card-body border m-2 d-flex"> 
+            <div>
+                <p><b>{{comment.name}}</b> {{comment.created_on}}</p>
+                 <p>{{comment.body}}</p>
+            </div>
+           
+        </div>
+        {% endfor %}
+    </div>
+
+
+</div>
+<!-- comment form rendering  --> 
+<div class="card m-2">
+    <div class="card-body">
+        <form style="width:50% ; margin : auto" method="post">
+            <h1>Add Comment</h1>
+            {% csrf_token %}
+            {{comment_form | crispy}}
+
+            <button class="btn btn-warning">Submit</button>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html'%}  
+{% load crispy_forms_tags%}
+{%block contents%} 
+<form method="post" style="width: 50%; height: 500px; margin: auto;" class="pt-4">
+    {% csrf_token %}
+    <!-- {{form|crispy}} --> 
+    {% for fm in form %} 
+      {{fm.label_tag}}
+      {{fm}}
+      {{fm.errors | striptags}}
+    {%endfor%}
+ <button type="submit" class="btn btn-outline-danger  mt-3">Change?</button>
+</form>
+
+
+{%endblock%}
