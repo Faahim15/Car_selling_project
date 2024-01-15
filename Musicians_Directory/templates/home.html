@@ -1,0 +1,49 @@
+{% extends 'base.html'%}  
+
+{%block content %}
+<h6 class="text-center">Model data showing in frontend</h6>
+
+{%if data%}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Musician Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Album Ratings</th>
+        <th scope="col">Instrument Type</th>
+        <th scope="col">Album name</th>
+        <th scope="col">Release date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for album in data%}
+      <tr>
+        <td>{{album.id}}</td>
+        <td><a href="{%url 'edit_musician' album.musicians.id%}"><button type="submit" style="background-color: yellow; color:red; border-radius: 5px; border:1px solid grey;" >{{album.musicians.Last_name}}</button></a></td>
+        <td>{{album.musicians.Email}}</td>
+        <td>{{album.album_rating}}</td>
+        <td>{{album.musicians.Instrument_type}}</td>
+        <td>{{album.album_name}}</td>
+        <td>{{album.album_release_date}}</td>
+        <td> 
+          {% if user.is_authenticated %}
+          <a href="{% url 'edit_album' album.id %}"><button type="submit" style="background-color: yellow; color:red; border-radius: 5px; border:1px solid grey;">Edit</button></a> 
+         <a href="{% url 'delete_musician' album.musicians.id %}"><button type="submit" style="background-color: rgb(187, 187, 210); color: aliceblue; border-radius: 5px;border:1px solid grey;" >Delete</button></a> 
+         {%else %} 
+          <b>Login</b>
+         {%endif%} 
+         
+        </td>
+        
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+
+ {%else%}
+  <h2>No data available.</h2>
+
+{% endif %}
+{%endblock%}

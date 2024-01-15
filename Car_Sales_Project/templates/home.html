@@ -1,0 +1,127 @@
+{% extends 'base.html'%} {% load static %} {% block styles %}
+<style>
+  .static_container {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+  }
+  .card {
+    background-color: rgb(108, 51, 157);
+    box-shadow: 5px 5px 10px black;
+  }
+  .card-title {
+    color: white;
+  }
+  #car_img {
+    width: 600px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .text {
+    text-align: justify;
+    padding-right: 120px;
+    padding-top: 100px;
+    padding-left: auto;
+  }
+  strong {
+    font-size: 35px;
+    color: #f0eaea;
+    font-family: "Times New Roman", Times, serif;
+  }
+  p {
+    font-size: 16px;
+    color: #cfc5c5;
+    line-height: 1.5;
+  }
+  #cards_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 15px;
+  }
+  .buttons_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 30px;
+    /* border: 2px solid red;  */
+    background-color: aliceblue;
+    border-radius: 5px;
+    height: 90px;
+  }
+</style>
+
+{%endblock%} {%block content %}
+<div class="static_container">
+  <div class="text">
+    <strong
+      >Welcome to
+      <span style="color: #24b5fc; font-family: sans-serif">CarCraze</span> -
+      Your Ultimate Car Trading Platform!</strong
+    >
+    <p>
+      Are you ready to embark on an exhilarating journey into the world of cars?
+      Look no further, because CarCraze is here to redefine the way you buy and
+      sell vehicles! 🚗✨ At CarCraze, we've crafted a seamless and
+      user-friendly platform dedicated to all things automotive. Whether you're
+      in search of your dream car or ready to part ways with your current ride,
+      CarCraze is your one-stop destination.
+    </p>
+  </div>
+  <div>
+    <img id="car_img" src="{%static 'car.jpg' %}" alt="Pictue Not found." />
+  </div>
+</div>
+{%endblock%} {% block buttons %}
+<p class="text-info text-center">
+  <strong
+    style="
+      font-size: 24px;
+      color: #24b5fc;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+        sans-serif;
+    "
+    >Filter cars via brand name...</strong
+  >
+</p>
+<div class="buttons_container">
+  {% for cat in category %}
+  <a
+    href="{%url 'category_wise_post' cat.slug %}"
+    class="btn btn-outline-secondary category-button"
+    >{{ cat.brand_name }}</a
+  >
+  {% endfor %}
+</div>
+
+{% endblock %} {%block cards%}
+
+<strong class="btn btn-dark px-5 m-4 text-info"
+  >Total Cars Found: {{data | length}}</strong
+>
+<div id="cards_container">
+  {% for car in data%}
+
+  <div class="card" style="width: 18rem">
+    <img src="{{car.image_field.url}}" class="card-img-top" alt="No picture" />
+    <div class="card-body">
+      <h5 class="card-title">Title: {{car.title}}</h5>
+      <p class="card-text">Price: {{car.price}}</p>
+      <p>Brand: {{car.brand.brand_name}}</p>
+      <a
+        href="{%url 'car_details' car.id%}"
+        class="btn btn-info"
+        title="Click to see additional info"
+        >View Details</a
+      >
+    </div>
+  </div>
+
+  {%endfor%}
+</div>
+
+{%endblock cards%}
