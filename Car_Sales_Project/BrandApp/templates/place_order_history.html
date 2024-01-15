@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block styles %}
+<style>
+  #cards_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .card {
+    background-color: rgb(108, 51, 157);
+    box-shadow: 5px 5px 10px black;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+  }
+</style>
+
+{%endblock%} {%block cards%}
+<a href="{%url 'edit_profile'%} " class="btn btn-outline-success mx-5 mt-4">
+  Edit Profile?</a
+>
+
+{%if orders%}
+<p class="text-info text-center">
+  <strong style="font-size: 28px">Your purchased items are...</strong>
+</p>
+<div id="cards_container">
+  {% for order in orders%}
+
+  <div class="card" style="width: 18rem">
+    <img src="{{order.car.image_field.url}}" class="card-img-top" alt="..." />
+    <div class="cardbody">
+      <h5 class="card-title">Title: {{order.car.title}}</h5>
+      <p>Brand: {{order.car.brand.brand_name}}</p>
+      <p>{{order.car.description}}</p>
+      <p class="card-text">Price: {{order.car.price}}</p>
+      <p class="card-text">
+        Quantity: <span id="quantity">{{order.car.quantity}}</span>
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{%else%}
+<p class="text-info text-center">
+  <strong style="font-size: 28px">No purchase yet.</strong>
+</p>
+{%endif%} {%endblock%}
